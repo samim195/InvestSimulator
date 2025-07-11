@@ -12,7 +12,7 @@ import {
 
 const LoginRegisterScreen: React.FC = () => {
   const handleGuestLogin = () => {
-    router.push('/invest');
+    router.push('/home-screen');
   };
 
   return (
@@ -70,15 +70,16 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   header: {
-    fontSize: 36,
+    fontSize: 50,
     fontWeight: '700',
     color: '#FFFFFF',
     marginBottom: 10,
     lineHeight: 42,
     textAlign: 'left',
+    fontFamily: 'Orbitron-Bold'
   },
   subtext: {
-    fontSize: 14,
+    fontSize: 20,
     color: '#AAAAAA',
     marginBottom: 30,
     textAlign: 'left',
