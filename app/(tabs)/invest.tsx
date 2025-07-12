@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import {
   FlatList,
@@ -20,6 +21,16 @@ const assetData = {
   Bonds: ['US Treasury Bond', 'Corporate Bond Fund', 'Municipal Bond'],
 };
 
+const findAssetClass = (
+  assetName: string
+): keyof typeof assetData | undefined => {
+  for (const assetClass in assetData) {
+    if (assetData[assetClass as keyof typeof assetData].includes(assetName)) {
+      return assetClass as keyof typeof assetData;
+    }
+  }
+};
+
 const InvestScreen: React.FC = () => {
   const [recurring, setRecurring] = React.useState(true);
   const [selectedAssetClass, setSelectedAssetClass] =
@@ -39,11 +50,28 @@ const InvestScreen: React.FC = () => {
   const assetClassSelectRef = React.useRef<TouchableOpacity>(null);
   const specificAssetSelectRef = React.useRef<TouchableOpacity>(null);
 
+  const { asset: passedAsset } = useLocalSearchParams<{ asset?: string }>();
+
   React.useEffect(() => {
+    // If an asset is passed via params, find its class and set the state.
+    if (passedAsset) {
+      const foundAssetClass = findAssetClass(passedAsset);
+      if (foundAssetClass && foundAssetClass !== selectedAssetClass) {
+        setSelectedAssetClass(foundAssetClass);
+        // The rest will be handled by the dependency change on selectedAssetClass
+        return;
+      }
+    }
+
     const newSpecificAssets = assetData[selectedAssetClass];
     setSpecificAssets(newSpecificAssets);
+
+    if (passedAsset && newSpecificAssets.includes(passedAsset)) {
+      setSelectedSpecificAsset(passedAsset);
+    } else {
     setSelectedSpecificAsset(newSpecificAssets[0]);
-  }, [selectedAssetClass]);
+    }
+  }, [passedAsset, selectedAssetClass]);
 
   const handleBuy = () => {
     console.log(`Buying $${amount} of ${selectedSpecificAsset}`);

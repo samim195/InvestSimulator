@@ -40,6 +40,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="show-chart" size={28} color={color} />,
         }}
       />
+            <Tabs.Screen
+        name="asset-detail-screen"
+        options={{
+          title: 'Details',
+          tabBarIcon: ({ color }) => <MaterialIcons name="info" size={28} color={color} />,
+          headerShown: false, // 
+        }}
+      />
       <Tabs.Screen
         name="portfolio"
         options={{

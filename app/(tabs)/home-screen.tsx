@@ -29,7 +29,7 @@ const HomeScreen = () => {
           <NeonButton
             icon={<MaterialCommunityIcons name="robot-outline" size={32} color="white" />}
             text="AI Coach"
-            onPress={() => router.navigate('/coach')}
+            onPress={() => router.push('/coach')}
           />
         </View>
 
